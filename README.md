@@ -64,57 +64,203 @@ legal-rag-chatbot/
 ---
 
 ## Quickstart (run locally)
-## Features
 
-- PDF document ingestion
-- Text chunking
-- Local MiniLM embeddings
-- FAISS vector search
-- Gemini-powered answer generation
-- Streamlit interface
+### 1. Clone the repository
 
-## Architecture
+Open Terminal and go to the folder where you want the project:
 
-PDF
- ↓
-Chunking
- ↓
-MiniLM Embeddings
- ↓
-FAISS
- ↓
-Relevant Context
- ↓
-Gemini
- ↓
-Answer
+```bash
+cd ~/Desktop
+```
 
-## Installation
+Clone the repository:
 
-git clone <repository-url>
-cd legal-rag-chatbot
+```bash
+git clone https://github.com/giriharsh77-pixel/LegalAI-RAG-ChatBot.git
+```
 
-python -m venv .venv
+Then enter the project directory:
+
+```bash
+cd LegalAI-RAG-ChatBot
+```
+
+You can verify the project files with:
+
+```bash
+ls
+```
+
+### 2. Create a virtual environment
+
+Create a virtual environment:
+
+```bash
+python3 -m venv .venv
+```
+
+Activate it:
+
+```bash
+source .venv/bin/activate
+```
+
+Your Terminal should now start with something similar to:
+
+```text
+(.venv) ...
+```
+
+### 3. Install dependencies
+
+Run:
+
+```bash
+pip install -r requirements.txt
+```
+
+If `pip` itself is outdated, you can first run:
+
+```bash
+python -m pip install --upgrade pip
+```
+
+and then:
+
+```bash
+pip install -r requirements.txt
+```
+
+### 4. Set up your Gemini API key
+
+First create a `.env` file from the example:
+
+```bash
+cp .env.example .env
+```
+
+Then open it:
+
+```bash
+nano .env
+```
+
+Put your Gemini API key in the file:
+
+```env
+GEMINI_API_KEY=your_actual_gemini_api_key
+```
+
+Save with:
+
+- `Ctrl + O`
+- Enter
+- `Ctrl + X`
+
+**Do not commit `.env` to GitHub.**
+
+### 5. Make sure your PDF is present
+
+The project expects the source PDF at:
+
+```text
+data/legal_reference.pdf
+```
+
+Check that it is present:
+
+```bash
+ls data
+```
+
+You should have:
+
+```text
+legal_reference.pdf
+```
+
+If you're using a different PDF, either rename it:
+
+```bash
+mv data/your-file.pdf data/legal_reference.pdf
+```
+
+or update the PDF path in the project.
+
+### 6. Build the FAISS index
+
+Run:
+
+```bash
+python ingest.py
+```
+
+This processes the PDF, creates the embeddings, and builds the local FAISS vector index.
+
+After this, a `vectorstore/` directory should be generated.
+
+### 7. Start the Streamlit app
+
+Run:
+
+```bash
+streamlit run app.py
+```
+
+You should get something similar to:
+
+```text
+Local URL: http://localhost:8501
+```
+
+Open:
+
+```text
+http://localhost:8501
+```
+
+Your Legal AI chatbot should now be running locally.
+
+### Complete setup
+
+For a completely fresh machine, you can essentially do:
+
+```bash
+cd ~/Desktop
+
+git clone https://github.com/giriharsh77-pixel/LegalAI-RAG-ChatBot.git
+
+cd LegalAI-RAG-ChatBot
+
+python3 -m venv .venv
+
 source .venv/bin/activate
 
 pip install -r requirements.txt
 
-## API Key
+cp .env.example .env
+```
 
-Create a `.env` file:
+Then put your Gemini API key in `.env`:
 
-GEMINI_API_KEY=your_api_key_here
+```env
+GEMINI_API_KEY=your_key_here
+```
 
-## Build the index
+Then:
 
+```bash
 python ingest.py
 
-## Run
-
 streamlit run app.py
+```
 
-> If you skip step 4, the app will build the index automatically on first
-> load — it just makes the first page load slower.
+And open:
+
+```text
+http://localhost:8501
+```
+
 
 ---
 
